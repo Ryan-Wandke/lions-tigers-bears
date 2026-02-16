@@ -5,7 +5,7 @@ async function start(){
     try{
         const response = await fetch("https://dog.ceo/api/breeds/list/all")
         const data = await response.json()
-        makedoggylist(data.message)}
+        makeDoggyList(data.message)}
     catch(e){
         console.log("error fetching dogs from https://dog.ceo/api/breeds/list/all")
 
@@ -14,22 +14,20 @@ async function start(){
 
 start()
 
-function makedoggylist(breedList){
+// loads all dogs from the api.
+function makeDoggyList(breedList){
     document.getElementById("breed").innerHTML =  `
     <select onchange="loadPhotosByBreed(this.value)">
-        <option>
-            Choose a breed of dog!!
-        </option>
+        <option>Choose a breed of dog!!</option>
         ${Object.keys(breedList).map(function(breed){
-
-        return `<option>${breed}</option>`
+          return `<option>${breed}</option>`
         }).join('')}
-        
     </select>
     `
 
 }
 
+// loads the photos based on what breed is picked in dropdown.
 async function loadPhotosByBreed(breed){
     if (breed != "Choose a breed of dog!!"){
         const response = await fetch(`https://dog.ceo/api/breed/${breed}/images`)
@@ -39,6 +37,7 @@ async function loadPhotosByBreed(breed){
 
 }
 
+// handles the slideshow of the different photos of the choosen dog.
 function createSlideshow(images) {
   let currentPosition = 0
   clearInterval(timer)
